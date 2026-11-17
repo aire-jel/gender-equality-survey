@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gender Equality Survey - Group 4</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* WELCOME SCREEN STYLES */
+    #welcomeScreen {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-top: 40px;
+    }
+
+    .group-badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .logo-container {
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      border: 2px dashed var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #0f172a;
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-placeholder-text {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 10px;
+    }
+
+    #welcomeScreen h1 {
+      font-size: 1.8rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    #welcomeScreen p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .start-btn {
+      padding: 14px 40px;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .start-btn:hover {
+      background: var(--accent-hover);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* SURVEY FORM STYLES */
+    #surveyContainer {
+      display: none;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label.q-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+    }
+
+    .optional {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0f172a;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .radio-option:hover {
+      border-color: var(--accent);
+    }
+
+    .radio-option input {
+      accent-color: var(--accent);
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    button.submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button.submit-btn:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
+
+    button.submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* THANK YOU & GROUP MEMBERS SHOWCASE */
+    .status-box {
+      display: none;
+      text-align: center;
+      padding: 32px 20px;
+      background: var(--card);
+      border: 1px solid var(--success);
+      border-radius: 20px;
+      margin-top: 20px;
+    }
+
+    .status-box h2 {
+      color: var(--success);
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.7rem;
+    }
+
+    .status-box p.sub-thanks {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+
+    .team-heading {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-bottom: 18px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      text-align: center;
+    }
+
+    .member-card {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .member-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+
+    /* BOX STYLE IMAGE PARA SA BAWAT MEMBER */
+    .member-img-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      border: 1px dashed var(--accent);
+      background: var(--card);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .member-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .member-placeholder {
+      font-size: 0.7rem;
+      color: var(--muted);
+      padding: 5px;
+    }
+
+    .member-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin: 0 0 3px;
+    }
+
+    .member-section {
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin: 0;
+    }
+
+    .admin-footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-bottom: 20px;
+    }
+
+    .admin-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    #resultsPanel {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .stat-bar-wrap {
+      margin-bottom: 14px;
+    }
+
+    .stat-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .bar-bg {
+      width: 100%;
+      height: 12px;
+      background: #0f172a;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 1. WELCOME / COVER SCREEN -->
+  <div id="welcomeScreen">
+    <div class="group-badge">GROUP 4 RESEARCH</div>
+    
+    <div class="logo-container">
+      <img src="holi.png" alt="School Logo" onerror="this.style.display='none'; document.getElementById('fallbackText').style.display='block';">
+      <span id="fallbackText" class="logo-placeholder-text" style="display:none;">holi.PNG</span>
+    </div>
+
+    <h1>Gender Equality Survey</h1>
+    <p>Isang pag-aaral tungkol sa kamalayan at opinyon ng mga kabataan sa pagkakapantay-pantay ng kasarian.</p>
+    
+    <button class="start-btn" onclick="startSurvey()">Simulan ang Sagutan</button>
+  </div>
+
+  <!-- 2. SURVEY CONTAINER -->
+  <div id="surveyContainer">
+    <header>
+      <div class="group-badge" style="margin-bottom: 8px;">GROUP 4</div>
+      <h1>Survey: Kamalayan sa Gender Equality</h1>
+      <p>Maraming salamat sa iyong oras at paglalaan ng panahon!</p>
+    </header>
+
+    <form id="surveyForm">
+      <!-- PART 1: DEMOGRAPHICS -->
+      <div class="card">
+        <h2 class="section-title">Bahagi 1: Impormasyon ng Respondent</h2>
+
+        <div class="form-group">
+          <label class="q-label">Kasarian (Gender) *</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="Gender" value="Lalaki" required /> Lalaki (Male)
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="Gender" value="Babae" /> Babae (Female)
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="Gender" value="Other Gender" /> Other Gender (LGBTQIA+ / Prefer to self-describe)
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label" for="name">Pangalan (Name) *</label>
+          <input type="text" id="name" name="Name" placeholder="Hal. Mio Madronio" required />
+        </div>
+
+        <div class="form-group">
+          <label class="q-label" for="fbAccount">Facebook Account Name / Profile Link *</label>
+          <input type="text" id="fbAccount" name="Facebook_Account" placeholder="Hal. facebook.com/SamanthaGonzales o Samantha Gonzales" required />
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="q-label" for="age">Edad (Years Old) *</label>
+            <input type="number" id="age" name="Age" min="10" max="99" placeholder="Hal. 16" required />
+          </div>
+
+          <div class="form-group">
+            <label class="q-label" for="grade">Baitang (Grade Level) *</label>
+            <input type="text" id="grade" name="Grade" placeholder="Hal. Grade 10" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label" for="section">Pangkat / Section <span class="optional">(Optional)</span></label>
+          <input type="text" id="section" name="Section" placeholder="Hal. St. Therese of Lisieux" />
+        </div>
+      </div>
+
+      <!-- PART 2: 7 MULTIPLE CHOICE QUESTIONS -->
+      <div class="card">
+        <h2 class="section-title">Bahagi 2: Mga Tanong na may Pagpipilian (1–7)</h2>
+
+        <div class="form-group">
+          <label class="q-label">1. Naniniwala ka ba na dapat pantay ang karapatan ng mga lalaki at babae? *</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="Q1_Pantay_Karapatan" value="Oo" required /> Oo</label>
+            <label class="radio-option"><input type="radio" name="Q1_Pantay_Karapatan" value="Hindi" /> Hindi</label>
+            <label class="radio-option"><input type="radio" name="Q1_Pantay_Karapatan" value="Hindi sigurado" /> Hindi sigurado</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">2. Mahalaga ba ang pagkakapantay-pantay ng kasarian upang magkaroon ng makatarungang lipunan? *</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="Q2_Makatarungang_Lipunan" value="Oo" required /> Oo</label>
+            <label class="radio-option"><input type="radio" name="Q2_Makatarungang_Lipunan" value="Hindi" /> Hindi</label>
+            <label class="radio-option"><input type="radio" name="Q2_Makatarungang_Lipunan" value="Hindi sigurado" /> Hindi sigurado</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">3. Dapat bang magkaroon ng pantay na oportunidad sa edukasyon ang mga lalaki at babae? *</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="Q3_Oportunidad_Edukasyon" value="Oo" required /> Oo</label>
+            <label class="radio-option"><input type="radio" name="Q3_Oportunidad_Edukasyon" value="Hindi" /> Hindi</label>
+            <label class="radio-option"><input type="radio" name="Q3_Oportunidad_Edukasyon" value="Hindi sigurado" /> Hindi sigurado</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">4. Sa tingin mo ba ay magkaiba ang inaasahan ng lipunan sa mga lalaki at babae? *</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="Q4_Inaasahan_Ng_Lipunan" value="Oo" required /> Oo</label>
+            <label class="radio-option"><input type="radio" name="Q4_Inaasahan_Ng_Lipunan" value="Hindi" /> Hindi</label>
+            <label class="radio-option"><input type="radio" name="Q4_Inaasahan_Ng_Lipunan" value="Hindi sigurado" /> Hindi sigurado</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">5. Naniniwala ka ba na parehong maaaring maging lider ang lalaki at babae? *</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="Q5_Lider" value="Oo" required /> Oo</label>
+            <label class="radio-option"><input type="radio" name="Q5_Lider" value="Hindi" /> Hindi</label>
+            <label class="radio-option"><input type="radio" name="Q5_Lider" value="Hindi sigurado" /> Hindi sigurado</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">6. Sa tingin mo ba ay dapat pantay na naghahati ang lalaki at babae sa mga gawaing bahay? *</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="Q6_Gawaing_Bahay" value="Oo" required /> Oo</label>
+            <label class="radio-option"><input type="radio" name="Q6_Gawaing_Bahay" value="Hindi" /> Hindi</label>
+            <label class="radio-option"><input type="radio" name="Q6_Gawaing_Bahay" value="Minsan" /> Minsan</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">7. Dapat bang pantay ang sahod ng lalaki at babae kung pareho ang kanilang trabaho? *</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="Q7_Pantay_Sahod" value="Oo" required /> Oo</label>
+            <label class="radio-option"><input type="radio" name="Q7_Pantay_Sahod" value="Hindi" /> Hindi</label>
+            <label class="radio-option"><input type="radio" name="Q7_Pantay_Sahod" value="Hindi sigurado" /> Hindi sigurado</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- PART 3: 3 OPEN-ENDED QUESTIONS -->
+      <div class="card">
+        <h2 class="section-title">Bahagi 3: Sariling Opinyon at Karanasan (8–10)</h2>
+
+        <div class="form-group">
+          <label class="q-label">8. Maaari mo bang ibahagi ang isang sitwasyon kung saan nakakita ka o nakaranas ka ng hindi pantay na pagtrato base sa kasarian sa isang propesyonal o pampublikong kapaligiran? Paano mo ito hinarap o hinarap sana? *</label>
+          <textarea name="Q8_Karanasan_Sitwasyon" placeholder="Isulat ang iyong sagot dito..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">9. Paano mo aktibong sinisigurado na ang iyong mga desisyon o pakikipag-ugnayan sa iba ay malaya sa bias o diskriminasyon sa kasarian? *</label>
+          <textarea name="Q9_Aksyon_Laban_Bias" placeholder="Isulat ang iyong sagot dito..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="q-label">10. Paano nakatutulong ang pantay na oportunidad sa kasarian upang mas umunlad ang ekonomiya at pamayanan? *</label>
+          <textarea name="Q10_Epekto_Ekonomiya" placeholder="Isulat ang iyong sagot dito..." required></textarea>
+        </div>
+      </div>
+
+      <!-- PART 4: INTERVIEW CONSENT -->
+      <div class="card">
+        <h2 class="section-title">Bahagi 4: Panayam</h2>
+
+        <div class="form-group">
+          <label class="q-label">Huling Tanong: Pumapayag ka ba na ma-interview namin para sa karagdagang detalye tungkol sa iyong mga sagot? *</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="Interview_Consent" value="Yes" required /> Yes (Oo, pumapayag ako)
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="Interview_Consent" value="No" /> No (Hindi muna sa ngayon)
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Ipasa ang Survey</button>
+    </form>
+
+    <!-- 3. FINAL THANK YOU MESSAGE + 8 MEMBERS CARDS -->
+    <div class="status-box" id="thankYouBox">
+      <h2>Maraming Salamat sa Pagsagot!</h2>
+      <p class="sub-thanks">Matagumpay na naipadala ang iyong mga sagot at opinyon. Malaking tulong ito sa aming pananaliksik.</p>
+
+      <h3 class="team-heading">Mga Miyembro ng Group 4</h3>
+      
+      <div class="members-grid">
+        <!-- MEMBER 1 -->
+        <div class="member-card">
+          <div class="member-img-box">
+            <img src="sg.jpg" alt="Samantha Gonzales" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">sg.jpg</span>
+          </div>
+          <p class="member-name">Samantha Gonzales</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+
+        <!-- MEMBER 2 -->
+        <div class="member-card">
+          <div class="je.JPG" alt="Jaissel Ardena" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">jar.jpg</span>
+          </div>
+          <p class="member-name">Jaissel Ardena</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+
+        <!-- MEMBER 3 -->
+        <div class="member-card">
+          <div class="member-img-box">
+            <img src="mm.jpg" alt="Mio Madronio" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">mm.jpg</span>
+          </div>
+          <p class="member-name">Mio Madronio</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+
+        <!-- MEMBER 4 -->
+        <div class="member-card">
+          <div class="member-img-box">
+            <img src="as.jpg" alt="Andrei Sopelario" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">as.jpg</span>
+          </div>
+          <p class="member-name">Andrei Sopelario</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+
+        <!-- MEMBER 5 -->
+        <div class="member-card">
+          <div class="member-img-box">
+            <img src="rz.jpg" alt="Richard Zulueta" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">rz.jpg</span>
+          </div>
+          <p class="member-name">Richard Zulueta</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+
+        <!-- MEMBER 6 -->
+        <div class="member-card">
+          <div class="member-img-box">
+            <img src="ms.jpg" alt="May Sta. Maria" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">ms.jpg</span>
+          </div>
+          <p class="member-name">May Sta. Maria</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+
+        <!-- MEMBER 7 -->
+        <div class="member-card">
+          <div class="member-img-box">
+            <img src="mo.jpg" alt="Marian Ordona" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">mo.jpg</span>
+          </div>
+          <p class="member-name">Marian Ordona</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+
+        <!-- MEMBER 8 -->
+        <div class="member-card">
+          <div class="ky.JPG" alt="Kylie Guirimbao" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="member-placeholder" style="display:none;">kl.jpg</span>
+          </div>
+          <p class="member-name">Kylie Guirimbao</p>
+          <p class="member-section">Grade 10</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN / RESEARCHER VIEW -->
+    <div class="admin-footer">
+      <button class="admin-btn" onclick="openResults()">Researcher View (Tingnan ang Gender %)</button>
+    </div>
+
+    <div class="card" id="resultsPanel">
+      <h2 class="section-title">Buod ng mga Sumagot (Local Browser Tracker)</h2>
+      <p style="font-size: 0.85rem; color: var(--muted);">
+        Paalala: Ipinapakita rito ang bilang ng mga sumagot sa device na ito. Lahat ng individual responses mula sa iba't ibang devices ay direktang ipinapadala sa iyong email.
+      </p>
+      <p><strong>Kabuuang Sumagot:</strong> <span id="totalCount">0</span></p>
+
+      <div class="stat-bar-wrap">
+        <div class="stat-label"><span>Lalaki</span><span id="maleStat">0 (0%)</span></div>
+        <div class="bar-bg"><div class="bar-fill" id="maleBar"></div></div>
+      </div>
+
+      <div class="stat-bar-wrap">
+        <div class="stat-label"><span>Babae</span><span id="femaleStat">0 (0%)</span></div>
+        <div class="bar-bg"><div class="bar-fill" id="femaleBar"></div></div>
+      </div>
+
+      <div class="stat-bar-wrap">
+        <div class="stat-label"><span>Other Gender</span><span id="otherStat">0 (0%)</span></div>
+        <div class="bar-bg"><div class="bar-fill" id="otherBar"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // PALITAN ITO NG ACCESS KEY MO MULA SA WEB3FORMS.COM
+  const WEB3FORMS_ACCESS_KEY = "8eff52fb-52a5-488f-94d6-105790372ed7";
+
+  function startSurvey() {
+    document.getElementById('welcomeScreen').style.display = 'none';
+    document.getElementById('surveyContainer').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const form = document.getElementById('surveyForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const thankYouBox = document.getElementById('thankYouBox');
+
+  let stats = JSON.parse(localStorage.getItem('genderSurveyStats')) || {
+    total: 0,
+    Lalaki: 0,
+    Babae: 0,
+    'Other Gender': 0
+  };
+
+  function updateStatsUI() {
+    document.getElementById('totalCount').textContent = stats.total;
+    const calcPct = (count) => stats.total === 0 ? 0 : Math.round((count / stats.total) * 100);
+
+    const mPct = calcPct(stats.Lalaki);
+    const fPct = calcPct(stats.Babae);
+    const oPct = calcPct(stats['Other Gender']);
+
+    document.getElementById('maleStat').textContent = `${stats.Lalaki} (${mPct}%)`;
+    document.getElementById('maleBar').style.width = mPct + '%';
+
+    document.getElementById('femaleStat').textContent = `${stats.Babae} (${fPct}%)`;
+    document.getElementById('femaleBar').style.width = fPct + '%';
+
+    document.getElementById('otherStat').textContent = `${stats['Other Gender']} (${oPct}%)`;
+    document.getElementById('otherBar').style.width = oPct + '%';
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Ipinapadala...";
+
+    const formData = new FormData(form);
+    const selectedGender = formData.get('Gender');
+
+    stats.total += 1;
+    if (stats[selectedGender] !== undefined) {
+      stats[selectedGender] += 1;
+    }
+    localStorage.setItem('genderSurveyStats', JSON.stringify(stats));
+
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.append("subject", `Bagong Survey Response - ${formData.get('Name')} (${selectedGender})`);
+    formData.append("from_name", "Group 4 Gender Equality Survey");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        form.style.display = "none";
+        thankYouBox.style.display = "block";
+        updateStatsUI();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        alert("May problema sa pagpapadala. Siguraduhing tama ang Access Key sa code.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Ipasa ang Survey";
+      }
+    } catch (error) {
+      alert("Hindi maipadala ang form. Pakisuri ang iyong internet connection.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Ipasa ang Survey";
+    }
+  });
+
+  function openResults() {
+    const promptPass = prompt("Ilagay ang Researcher Password (default: admin123):");
+    if (promptPass === "admin123") {
+      updateStatsUI();
+      document.getElementById('resultsPanel').style.display = "block";
+    } else if (promptPass !== null) {
+      alert("Maling password.");
+    }
+  }
+</script>
+
+</body>
+</html>
